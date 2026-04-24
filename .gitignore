@@ -1,0 +1,12 @@
+.env
+.env.local
+config.properties
+
+
+.settings/
+.classpath
+.project
+bin/
+
+.DS_Store
+Thumbs.db
