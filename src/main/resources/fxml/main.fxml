@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="com.fly.uloganalyzer.presentation.controllers.MainController">
+
+    <ImageView fx:id="backgroundImage" fitWidth="1200" fitHeight="800" pickOnBounds="true" preserveRatio="false" opacity="0.1"/>
+
+    <BorderPane fx:id="root" styleClass="root-pane" style="-fx-background-color: transparent;">
+        
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header-bar">
+                <padding>
+                    <Insets top="15" right="20" bottom="15" left="20"/>
+                </padding>
+                <ImageView fx:id="logoImage" fitWidth="32" fitHeight="32" />
+                <Label text="LOG ANALYZER" styleClass="header-title"/>
+            </HBox>
+        </top>
+        
+        <center>
+            <TabPane tabClosingPolicy="UNAVAILABLE" styleClass="main-tab-pane">
+                
+                <Tab text="🏠 Analiz Paneli">
+                    <SplitPane dividerPositions="0.35" styleClass="main-split-pane">
+                        <items>
+                            <VBox spacing="15" styleClass="side-panel">
+                                <padding>
+                                    <Insets top="15" right="15" bottom="15" left="15"/>
+                                </padding>
+
+                                <VBox styleClass="card-pane">
+                                    <Label text="🔑 OpenAI API Configuration" styleClass="card-title"/>
+                                    <HBox alignment="CENTER_LEFT" spacing="5">
+                                        <Label fx:id="lblApiStatus" text="API Key Kontrol Ediliyor..." styleClass="status-label-neutral"/>
+                                    </HBox>
+                                </VBox>
+
+                                <VBox styleClass="card-pane" spacing="10" VBox.vgrow="NEVER">
+                                    <Label text="1. ULOG Dosyası Yükle (Sürükle-Bırak veya Seç)" styleClass="card-title"/>
+                                    
+                                    <Button fx:id="btnLoadUlog" text="📁 ULOG Dosyası Seç" 
+                                            styleClass="button-primary" maxWidth="Infinity"/>
+                                    
+                                    <VBox fx:id="dragDropArea" styleClass="drag-drop-area" alignment="CENTER">
+                                        <Label fx:id="lblSelectedFile" text="Henüz dosya seçilmedi - veya dosyayı buraya sürükleyin" 
+                                               wrapText="true" styleClass="drag-drop-label"/>
+                                    </VBox>
+                                    
+                                    <StackPane>
+                                         <ProgressIndicator fx:id="progressIndicator" visible="false" maxHeight="20"/>
+                                    </StackPane>
+                                </VBox>
+
+                                <VBox styleClass="card-pane" spacing="5" VBox.vgrow="ALWAYS">
+                                    <Label text="2. Filtrelenmiş CSV Dosyaları (Otomatik Seçili)" styleClass="card-title"/>
+                                    <ListView fx:id="csvListView" styleClass="dark-list-view" VBox.vgrow="ALWAYS"/>
+                                </VBox>
+
+                                <VBox styleClass="card-pane" spacing="5">
+                                    <Label text="📝 Özel Prompt (İsteğe Bağlı)" styleClass="card-title"/>
+                                    <TextArea fx:id="txtCustomPrompt" promptText="Kendi analiz prompt'unuzu yazın..." 
+                                              styleClass="dark-text-area" prefRowCount="3" wrapText="true"/>
+                                </VBox>
+
+                                <HBox spacing="10">
+                                    <Button fx:id="btnAnalyzeDefault" text="🚀 Varsayılan Prompt ile Analiz" 
+                                            styleClass="button-success" maxWidth="Infinity" HBox.hgrow="ALWAYS" disable="true"/>
+                                    <Button fx:id="btnAnalyzeCustom" text="📝 Özel Prompt ile Analiz" 
+                                            styleClass="button-info" maxWidth="Infinity" HBox.hgrow="ALWAYS" disable="true"/>
+                                </HBox>
+                            </VBox>
+
+                            <VBox spacing="15" styleClass="content-panel">
+                                <padding>
+                                    <Insets top="15" right="15" bottom="15" left="15"/>
+                                </padding>
+                                
+                               <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <Label text="3. Analiz Sonuçları" styleClass="section-header"/>
+                                    
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    
+                                    <Button fx:id="btnSaveReport" text="💾 Kaydet (.md)" 
+                                            styleClass="button-info-outline" 
+                                            style="-fx-font-size: 11px; -fx-padding: 5 10 5 10;"/>
+                                
+                                    <Button fx:id="btnClearResults" text="✖ Temizle" 
+                                            styleClass="button-danger-outline" 
+                                            style="-fx-font-size: 11px; -fx-padding: 5 10 5 10;"/>
+                                </HBox>
+                                
+                                <TextArea fx:id="txtResults" styleClass="results-area" 
+                                          promptText="Analiz sonuçları burada görünecek... ULOG dosyası yükleyip analiz başlatın." 
+                                          wrapText="true" editable="false" VBox.vgrow="ALWAYS"/>
+                                
+                                <VBox spacing="5">
+                                    <Label text="💬 Takip Sorusu:" styleClass="label-bright"/>
+                                    <HBox spacing="10" alignment="CENTER_LEFT">
+                                        <TextArea fx:id="txtFollowup" promptText="💡 Takip sorusu için analizin gerçekleşmiş olması gerek..." 
+                                                  styleClass="input-field" prefRowCount="2" wrapText="true" 
+                                                  HBox.hgrow="ALWAYS" disable="true"/>
+                                        <Button fx:id="btnSendFollowup" text="➔" 
+                                                styleClass="button-warning" prefWidth="50" prefHeight="50" disable="true"/>
+                                    </HBox>
+                                </VBox>
+                            </VBox>
+                        </items>
+                    </SplitPane>
+                </Tab>
+
+                <Tab text="🔧 Ayarlar">
+                    <ScrollPane fitToWidth="true" styleClass="settings-scroll-pane" style="-fx-background-color: transparent;">
+                        <VBox spacing="20" style="-fx-padding: 30;">
+                            
+                            <Label text="Uygulama Ayarları" styleClass="section-header" style="-fx-font-size: 24px;"/>
+                            
+                            <VBox styleClass="card-pane" spacing="10">
+                                <Label text="🤖 Yapay Zeka (OpenAI) Ayarları" styleClass="card-title"/>
+                                
+                                <GridPane hgap="15" vgap="15">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="150"/>
+                                        <ColumnConstraints hgrow="ALWAYS"/>
+                                    </columnConstraints>
+                                    
+                                    <Label text="API Key:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-bright"/>
+                                    <PasswordField fx:id="txtApiKey" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="input-field"/>
+                                    
+                                    <Label text="Model Adı:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-bright"/>
+                                    <TextField fx:id="txtModelName" promptText="Örn: gpt-4o" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="input-field"/>
+                                    
+                                    <Label text="Max Tokens:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="label-bright"/>
+                                    <TextField fx:id="txtMaxTokens" promptText="Örn: 10000" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="input-field"/>
+                                    
+                                    <Label text="Timeout (Sn):" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="label-bright"/>
+                                    <TextField fx:id="txtTimeout" promptText="Örn: 120" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="input-field"/>
+                                </GridPane>
+                            </VBox>
+                            
+                            <VBox styleClass="card-pane" spacing="10" VBox.vgrow="ALWAYS">
+                                <Label text="📝 Varsayılan Analiz Promptu" styleClass="card-title"/>
+                                <Label text="Analiz sırasında kullanılan sistem talimatını buradan değiştirebilirsiniz." styleClass="label-muted"/>
+                                <TextArea fx:id="txtDefaultPromptSetting" prefRowCount="8" styleClass="dark-text-area" wrapText="true"/>
+                            </VBox>
+
+                            <VBox styleClass="card-pane" spacing="10">
+                                <Label text="🔍 CSV Filtre Listesi" styleClass="card-title"/>
+                                <Label text="Hangi CSV dosyalarının analize dahil edileceğini alt alta yazın." styleClass="label-muted"/>
+                                <TextArea fx:id="txtFilterListSetting" prefRowCount="6" styleClass="dark-text-area"/>
+                            </VBox>
+                            
+                            <HBox alignment="CENTER_RIGHT" spacing="15">
+                                <Label fx:id="lblSettingsStatus" text="" style="-fx-text-fill: #51cf66; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnSaveSettings" text="💾 Ayarları Kaydet ve Uygula" 
+                                        styleClass="button-success" style="-fx-font-size: 14px; -fx-padding: 10 20;"/>
+                            </HBox>
+                            
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+            </TabPane>
+        </center>
+    </BorderPane>
+</StackPane>
