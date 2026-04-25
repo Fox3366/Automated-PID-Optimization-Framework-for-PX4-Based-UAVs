@@ -1,6 +1,0 @@
-vehicle_attitude_0
-vehicle_attitude_setpoint_0
-vehicle_angular_velocity_0
-vehicle_rates_setpoint_0
-vehicle_control_mode_0
-rate_ctrl_status
