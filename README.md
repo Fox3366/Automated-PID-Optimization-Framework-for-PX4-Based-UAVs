@@ -68,8 +68,6 @@ The **LLM Log Analyzer** is a specialized framework designed to provide an effic
 4.  **Interaction:** Engage in a continuous dialogue with the model via the "Follow-up Question" module to refine tuning suggestions.
 
 ---
-
-## 🤝 İletişim & Katkıda Bulunma / Contact & Contributing
 Projeyi geliştirmek için fikirleriniz, hata bildirimleriniz veya katkılarınız varsa iletişime geçmekten çekinmeyin: / Feel free to reach out for ideas or contributions:
 
 * **Geliştirici / Developer:** Yusuf Karagülle
